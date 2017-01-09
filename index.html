@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<title>Let's play!</title>
+	
+	<link href="ropasci.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+</head>
+
+<body>
+		
+	<section id="notification">
+		<div id="noti">
+			<h1>Are you ready to play?</h1>
+			<br><br>
+			<h1>Let's beat that computer.</h1>
+		</div>
+	</section>
+	
+	<section id="game">
+		<div id="play">
+			<img class="select" id="ro" src="rock.png" alt="ROCK" height="100" width="100">
+			<img class="select" id="pa" src="paper.png" alt="PAPER" height="100" width="100">
+			<img class="select" id="sci" src="scissors.png" alt="SCISSORS" height="100" width="100">
+			<!-- 
+			<img class="select" id="ro" src="rock2.png" alt="ROCK" height="100" width="100">
+			<img class="select" id="pa" src="paper2.png" alt="PAPER" height="100" width="100">
+			<img class="select" id="sci" src="scissors2.png" alt="SCISSORS" height="100" width="100">
+			-->
+			<hr>
+			<h3>Your choice:</h3> <h3 class="you">...</h3>
+			<hr>
+			<h3 class="comp">Computer: </h3>
+			<hr>
+			<h3 class="result"> </h3>
+			<hr>
+			<div class="score"><h3>Your score: </h3> <h3 class="scoreYou">0</h3></div>
+			<div class="score"><h3>Computer: </h3> <h3 class="scoreComp">0</h3></div>
+			<div class="score"><h3>Ties: </h3> <h3 class="scoreTie">0</h3></div>
+			<div class="refresh" id="refresh">
+			<h3>Restart</h3>
+			</div>
+		</div>		
+	</section>
+
+<script>
+
+var countY = 0;
+var countC = 0;
+var countT = 0;
+
+$(document).ready(function() {
+
+$('#refresh').click(function() {
+	window.location.href = window.location.href;
+});
+
+$('#ro').click(function() {
+	$('.you').text("rock");
+});
+
+$('#pa').click(function() {
+	$('.you').text("paper");
+});
+$('#sci').click(function() {
+	$('.you').text("scissors");
+});
+
+$('.select').click(function() {
+
+var userChoice = $('.you').text();
+$('.comp').text("Computer:   ");
+$('.result').text(" ");
+var computerChoice = Math.random();
+
+if (computerChoice < 0.34) {
+	computerChoice = "rock";
+} else if(computerChoice <= 0.67) {
+	computerChoice = "paper";
+} else {
+	computerChoice = "scissors";
+} 
+
+$('.you').text(userChoice);
+
+setTimeout(function(){ 
+
+$('.comp').text("Computer:   " + computerChoice);
+
+var compare = function(choice1,choice2) {
+    if (choice1 === choice2) {
+		countT++;
+        return "The result is a tie";
+    } else if (choice1 === "rock") {
+        if (choice2 === "scissors") {
+			countY++;
+            return "You win!";
+        } else {
+            countC++;
+			return "Computer wins";
+        }
+    } else if (choice1 === "paper") {
+        if (choice2 === "rock") {
+            countY++;
+			return "You win!";
+        } else {
+            countC++;
+			return "Computer wins";
+        }
+    } else if (choice1 === "scissors") {
+        if (choice2 === "paper") {
+            countY++;
+			return "You win!";
+        } else {
+            countC++;
+			return "Computer wins";
+        }
+    } else {
+        return "Please choose rock, paper, or scissors..."
+    }
+};
+$('.result').text(compare(userChoice,computerChoice) + "... Play again?");
+$('.scoreYou').text(countY);
+$('.scoreComp').text(countC);
+$('.scoreTie').text(countT);
+},  200); 
+});
+
+});
+
+</script>
+
+</body>
